@@ -1,9 +1,46 @@
 .each-image {
     margin: 10px;
+    margin-bottom: 30px;
     display: flex;
     text-align: center;
+    position: relative;
 }
 
 .image {
     width: 150px;
+}
+
+.image-description {
+    width: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    transform: translate(-10%);
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border-radius: 7px;
+    border-top-left-radius: 0px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.image-description::before {
+    content: "";
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    transform: translate(-100%);
+    border: 15px solid;
+    border-color: #0000 #000 #0000 #0000;
+}
+
+.each-image:hover .image-description {
+    top: 100px;
+    visibility: visible;
+    opacity: 1;
 }
