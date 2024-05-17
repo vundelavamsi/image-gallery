@@ -46,6 +46,24 @@
   font-size: 16px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  list-style-type: none;
+}
+
+.list-item {
+  border: 1px solid grey;
+  padding: 14px;
+  color: #007bff ;
+  font-size: 20px;
+}
+.active {
+  background-color: #007bff;
+  color: red;
+}
+
 @media screen and (min-width: 768px) {
   .main-heading {
     font-size: 40px;

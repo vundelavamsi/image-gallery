@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Gallery from "./components/Gallery";
 import "./App.css";
+import ReactPaginate from "react-paginate";
 
 const searchElements = [
   {
@@ -32,10 +33,10 @@ function App() {
 
   const apiKey = "_en21j7lK1wdyr3ZtjYHCWMQH2A4GJayx0NJ01Bhm-4";
 
-  const fetchData = async (search) => {
+  const fetchData = async (search,page) => {
     const url = search
-      ? `https://api.unsplash.com/search/photos?client_id=${apiKey}&query=${search}`
-      : `https://api.unsplash.com/photos?client_id=${apiKey}`;
+      ? `https://api.unsplash.com/search/photos?client_id=${apiKey}&query=${search}&page=${page}`
+      : `https://api.unsplash.com/photos?client_id=${apiKey}&page=${page}`;
     console.log(search);
     try {
       const response = await fetch(url);
@@ -54,18 +55,24 @@ function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      fetchData(search);
+      fetchData(search,1);
     });
   }, [search]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    fetchData(search);
+    fetchData(search,1);
   };
 
   const changeSearchItem = (e) => {
     setSearch(e.target.value);
   };
+
+  const handlePageClick = async (data) => {
+    console.log(data.selected);
+    let currentPage = data.selected + 1
+    await fetchData(search,currentPage);
+  }
 
   return (
     <div className="App">
@@ -95,6 +102,21 @@ function App() {
       </div>
       <h1>{search}</h1>
       <Gallery data={imagesData} isLoading={isLoading} />
+      <ReactPaginate 
+      previousLabel={'prev'}
+      nextLabel={'next'}
+      breakLabel={'...'}
+      pageCount={1000}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={3}
+      onPageChange={handlePageClick}
+      containerClassName={'pagination'}
+      pageClassName={'list-item'}
+      previousClassName={'list-item'}
+      nextClassName={'list-item'}
+      breakClassName={'list-item'}
+      activeClassName={'active'}
+      />
     </div>
   );
 }
