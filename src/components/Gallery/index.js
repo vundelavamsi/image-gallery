@@ -1,15 +1,18 @@
 import React from "react";
 import Image from "../Image";
-import "./index.css"
+import { ShimmerSimpleGallery } from "react-shimmer-effects";
+import "./index.css";
 
-const Gallery = ({ data }) => {
+const Gallery = ({ data, isLoading }) => {
   return (
     <ul className="images-list">
-      {
-        data.map((eachImage) => 
-            <Image eachImage={eachImage} key={eachImage.id} />
-        )
-      }
+      {isLoading ? (
+        <ShimmerSimpleGallery card imageHeight={150} />
+      ) : (
+        data.map((eachImage) => (
+          <Image eachImage={eachImage} key={eachImage.id} />
+        ))
+      )}
     </ul>
   );
 };
