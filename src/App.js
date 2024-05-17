@@ -2,28 +2,67 @@ import { useEffect, useState } from "react";
 import Gallery from "./components/Gallery";
 import "./App.css";
 
+const searchElements = [
+  {
+    id: 1,
+    name: "Mountain"
+  },
+  {
+    id: 2,
+    name: "Flowers"
+  },
+  {
+    id: 3,
+    name: "Beaches"
+  },
+  {
+    id: 4,
+    name: "Cities"
+  }
+]
+
+console.log(searchElements)
+
 function App() {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
+  const [imagesData, setData] = useState([]);
 
   const changeHandler = (e) => {
     setSearch(e.target.value);
   };
 
-  const apiKey = "_en21j7lK1wdyr3ZtjYHCWMQH2A4GJayx0NJ01Bhm-4"
+  const apiKey = "_en21j7lK1wdyr3ZtjYHCWMQH2A4GJayx0NJ01Bhm-4";
 
-  const fetchData = (search) => {
-    fetch(`https://api.unsplash.com/photos?client_id=${apiKey}`)
-    .then((res) => res.json())
-    .then((data) => setData(data))
-  }
+  const fetchData = async (search) => {
+    const url = search
+      ? `https://api.unsplash.com/search/photos?client_id=${apiKey}&query=${search}`
+      : `https://api.unsplash.com/photos?client_id=${apiKey}`;
+console.log(search);
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (search) {
+          setData(data.results);
+        }
+        else {
+          setData(data);
+        }
+      } catch (error) {
+        console.log("Error fetching data:",error);
+      }
+  };
+
   useEffect(() => {
-    fetchData();
-  })
+    fetchData(search);
+  }, [search]);
 
-  const submitHandler = e => {
+  const submitHandler = (e) => {
     e.preventDefault();
     fetchData(search);
+  };
+
+  const changeSearchItem = (e) => {
+    setSearch(e.target.value)
   }
 
   return (
@@ -37,9 +76,17 @@ function App() {
           className="search-input"
           placeholder="Search Category"
         />
-        <button type="submit" className="search-button">Search</button>
+        <button type="submit" className="search-button">
+          Search
+        </button>
       </form>
-      <Gallery data={data} />
+      <div className="serch-elements-container">
+        {searchElements.map((eachSearchElement) => 
+          <button className="search-element" onClick={changeSearchItem} value={eachSearchElement.name}>{ eachSearchElement.name}</button>
+        )}
+      </div>
+      <h1>{search}</h1>
+      <Gallery data={imagesData} />
     </div>
   );
 }

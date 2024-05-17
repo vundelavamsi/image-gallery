@@ -28,3 +28,20 @@ justify-content: center;
   border-radius: 5px;
   color: white;
 }
+
+.serch-elements-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.search-element {
+  background-color: #FF6347;
+  margin: 4px;
+  border: 0px;
+  border-radius: 4px;
+  height: 40px;
+  width: 80px;
+  color: white;
+  font-size: 16px;
+}
